@@ -14,7 +14,7 @@ AC_CONFIG_SRCDIR([src/HttpPaxxer/Packer.h])
 AC_CONFIG_HEADERS(src/HttpPaxxer/ac-autoconf.h)
 AX_PREFIX_CONFIG_H(src/HttpPaxxer/autoconf.h)
 
-AM_INIT_AUTOMAKE([nostdinc])
+AM_INIT_AUTOMAKE([-Wall foreign nostdinc])
 AM_MAINTAINER_MODE
 
 LT_INIT
