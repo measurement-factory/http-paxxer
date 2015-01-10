@@ -1,0 +1,22 @@
+# Sorted with: LC_ALL=C sort --stable --unique
+*.a
+*.la
+*.lo
+*.o
+*~
+.deps/
+.dirstamp
+.libs/
+/aclocal.m4
+/autom4te.cache/
+/cfgaux/
+/config.*
+/configure
+/m4/
+/src/HttpPaxxer/autoconf.h
+/src/HttpPaxxer/ac-autoconf.h.in
+Makefile
+Makefile.in
+build/
+libtool
+stamp-h?
