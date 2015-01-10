@@ -4,6 +4,8 @@
 #define HTTP_PAXXER_ALL_H
 
 #include <HttpPaxxer/Paxxer.h>
+#include <cstddef>
+#include <stdint.h> /* TODO: <use cstdint> if available */
 
 // This all-in-one file is a temporary hack to simplify initial development.
 // TODO: Move Foo-related components to Foo.h.
@@ -28,7 +30,7 @@ class Raw {
 	public:
 		virtual ~Raw() {}
 
-		virtual size_type size() const = 0;
+		virtual size_t size() const = 0;
 		virtual const char *data() const = 0;
 };
 
@@ -55,7 +57,7 @@ class StreamInterpreter {
 	public:
 		virtual ~StreamInterpreter() {}
 
-		virtual void noteHeaderField(Field, const bool eoh) = 0;
+		virtual void noteHeaderField(HeaderField, const bool eoh) = 0;
 		virtual void noteBody(const Raw &raw, const bool eob) = 0;
 		// TODO: add other stream-specific event notification methods
 };
@@ -78,6 +80,8 @@ class Stream {
 		typedef enum { stIdle, stReservedLocal, stReservedRemote, stOpen,
 			stHalfClosedLocal, stHalfClosedRemote, stClosed } State;
 
+		typedef uint32_t Id;
+
 	public:
 		Stream(const Id anId, const weak_ptr<Connection> &aConnection);
 
@@ -87,7 +91,7 @@ class Stream {
 		void sendHeaders(const Headers &hdr, const bool eoh);
 
 		void sendData(const Raw &data, const bool eof);
-		void sendData(const Raw &data, const bool eof, const Size padding);
+		void sendData(const Raw &data, const bool eof, const size_t padding);
 		void end(); // send RST_STREAM
 
 		// TODO: PRIORITY.
@@ -124,8 +128,8 @@ class Connection {
          * ensure doneReceiving() returns correct value, and
          * return the number of bytes used.
          * The user should not consume unused bytes */
-		size_type parseRaw(const Raw &data, const bool eof);
-		size_type parseBytes(const char *bytes, const size_type size, const bool eof);
+		size_t parseRaw(const Raw &data, const bool eof);
+		size_t parseBytes(const char *bytes, const size_t size, const bool eof);
 
 		// returns true if and only if no more data is needed
 		bool doneReceiving() const { return doneReceiving_; }

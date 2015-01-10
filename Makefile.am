@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = 1.5
 
 ACLOCAL_AMFLAGS = -I cfgaux
 
-pkgconfig_DATA = libHttpPaxxer.pc
+pkgconfig_DATA = HttpPaxxer.pc
 
 SUBDIRS	= src
 

@@ -1,13 +1,14 @@
 lib_LTLIBRARIES = \
 	libHttpPaxxer.la
 
-libHttpPaxxer_la_SOURCES =
+libHttpPaxxer_la_SOURCES = \
 	All.cc
 
 include_pkg_HEADERS = \
 	All.h \
 	Connection.h \
 	Forward.h \
+	Paxxer.h \
 	Stream.h
 
 nodist_include_pkg_HEADERS = \

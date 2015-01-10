@@ -5,14 +5,14 @@
 #
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT(HTTP Paxxer, 0.0.x, [], HttpPaxxer)
-HTTP_PAXXER_LIBRARY_VERSION=1:0:0
+AC_INIT([HTTP Paxxer], [0.0.x], [], [HttpPaxxer])
+HTTP_PAXXER_LIBRARY_VERSION=0:0:0
 AC_SUBST(HTTP_PAXXER_LIBRARY_VERSION)
 AC_CONFIG_AUX_DIR(cfgaux)
 AC_CONFIG_MACRO_DIR(cfgaux)
-AC_CONFIG_SRCDIR([src/HttpPaxxer/Packer.h])
+AC_CONFIG_SRCDIR([src/HttpPaxxer/Paxxer.h])
 AC_CONFIG_HEADERS(src/HttpPaxxer/ac-autoconf.h)
-AX_PREFIX_CONFIG_H(src/HttpPaxxer/autoconf.h)
+AX_PREFIX_CONFIG_H(src/HttpPaxxer/autoconf.h, HTTP_PAXXER)
 
 AM_INIT_AUTOMAKE([-Wall foreign nostdinc])
 AM_MAINTAINER_MODE
