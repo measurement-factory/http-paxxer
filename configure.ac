@@ -16,6 +16,7 @@ AX_PREFIX_CONFIG_H(src/HttpPaxxer/autoconf.h)
 
 AM_INIT_AUTOMAKE([-Wall foreign nostdinc])
 AM_MAINTAINER_MODE
+AM_PROG_AR
 
 LT_INIT
 
@@ -26,13 +27,6 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-
-# not needed for libtool-using projects?
-# AC_PROG_RANLIB
-# AC_PATH_PROG(AR, ar, ar)
-# AR_R="$AR r"
-# AC_SUBST(AR_R)
-
 
 # Checks for libraries.
 
