@@ -8,10 +8,12 @@ include_pkg_HEADERS = \
 	All.h \
 	Connection.h \
 	Forward.h \
-	Stream.h \
+	Stream.h
 
 nodist_include_pkg_HEADERS = \
         $(top_builddir)/src/HttpPaxxer/autoconf.h
+
+include_pkgdir = ${prefix}/include/@PACKAGE@
 
 DISTCLEANFILES = \
 	ac-autoconf.h \
