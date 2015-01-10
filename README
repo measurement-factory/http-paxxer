@@ -1,0 +1,15 @@
+HTTP Paxxer is a C++ library providing HTTP/2 parser and packer classes
+with a focus on high-performance support for low-level protocol operations.
+
+HTTP Paxxer targets applications that:
+
+* manage HTTP transport connections,
+* manage SSL/TLS encoding of HTTP transport connections,
+* manage memory allocations,
+* minimize memory copies.
+
+The library can be built and installed from source, usually by running:
+
+        % ./configure
+        % make
+        % make install
