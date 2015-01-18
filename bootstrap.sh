@@ -3,7 +3,7 @@
 # generate fresh configure and Makefile.ins
 # only developers might need to run this script
 
-autoreconf --force --install
+autoreconf --force --install || exit $?
 
 # leave grep output on the console to supply macro details.
 if grep -E 'AX_PREFIX_CONFIG_H' configure; then
