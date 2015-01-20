@@ -48,10 +48,11 @@ AC_ARG_WITH(pkgconfigdir,
 AC_SUBST([pkgconfigdir])
 AC_MSG_NOTICE([pkgconfig directory is ${pkgconfigdir}])
 
-AC_CONFIG_FILES([\
-        HttpPaxxer.pc \
-        Makefile \
-        src/Makefile \
+AC_CONFIG_FILES([
+        HttpPaxxer.pc
+        Makefile
+        src/Makefile
         src/HttpPaxxer/Makefile
+        tests/Makefile
 ])
 AC_OUTPUT

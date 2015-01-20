@@ -6,7 +6,7 @@ ACLOCAL_AMFLAGS = -I cfgaux
 
 pkgconfig_DATA = HttpPaxxer.pc
 
-SUBDIRS	= src
+SUBDIRS	= src tests
 
 EXTRA_DIST = \
 	LICENSE \

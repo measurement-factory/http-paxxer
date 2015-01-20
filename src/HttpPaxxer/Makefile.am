@@ -26,3 +26,12 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src
 
 libHttpPaxxer_la_LDFLAGS = -version-info $(HTTP_PAXXER_LIBRARY_VERSION)
+
+
+check_PROGRAMS = IntegerPaxxer
+
+IntegerPaxxer_SOURCES = \
+	IntegerPaxxer.cc
+
+IntegerPaxxer_LDADD = \
+	libHttpPaxxer.la
