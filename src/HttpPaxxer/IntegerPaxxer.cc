@@ -65,7 +65,7 @@ void receiveIntegers(const char *buffer, const size_t size, const int prefixSize
     assert(1 <= prefixSize && prefixSize <= 8);
     const uint8_t maxPrefix = (1 << prefixSize) - 1;
 
-    int i = 0;
+    size_t i = 0;
     while (i < size) {
         uint64_t val = buffer[i++] & maxPrefix;
         if (val >= maxPrefix) {
