@@ -12,6 +12,7 @@
 
 // XXX: The interface will change.
 // TODO: Transform into Connection::sendInteger().
+static
 void sendInteger(const uint64_t value, const int prefixSize)
 {
     /*
@@ -47,6 +48,7 @@ void sendInteger(const uint64_t value, const int prefixSize)
 
 // XXX: The interface will change.
 // TODO: Transfor inner code into Connection::receiveInteger().
+static
 void receiveIntegers(const char *buffer, const size_t size, const int prefixSize)
 {
     /*
@@ -101,6 +103,7 @@ void receiveIntegers(const char *buffer, const size_t size, const int prefixSize
     }
 }
 
+static
 void printUsage(std::ostream &os, const std::string &progName)
 {
     os << "Usage: " << progName << " <action> [N]" << std::endl;
