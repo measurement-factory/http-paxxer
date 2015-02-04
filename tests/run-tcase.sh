@@ -6,9 +6,12 @@ buildDir="$1"
 tcase="$2"
 
 # defaults
+# TODO: rename to $input, remove default, and require that it is set
 inputFilter=cat
 outputFilter=cat
-output="`basename $tcase`.out"
+finalInput="in-`basename $tcase`.tmp"
+rawOutput="middle-`basename $tcase`.tmp"
+finalOutput="out-`basename $tcase`.tmp"
 
 . "$tcase"
 
@@ -18,7 +21,10 @@ set | egrep '^(srcdir|tcase|output|testProgram|expectedOutput)='
 # xxd is used by many test cases
 command -v xxd > /dev/null || { echo 'Test cases require xxd' 1>&2; exit 99; }
 
-$inputFilter | "$buildDir"/$testProgram | $outputFilter > $output \
-	|| exit $?
+eval "$inputFilter > $finalInput" || exit 99
+eval "\"$buildDir\"/$testProgram < $finalInput > $rawOutput" || exit $?
+eval "$outputFilter < $rawOutput > $finalOutput" || exit 99
 
-diff -u $expectedOutput $output && rm $output
+diff -u $expectedOutput $finalOutput || exit $?
+
+rm $finalInput $rawOutput $finalOutput || exit 99

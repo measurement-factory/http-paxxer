@@ -1,0 +1,6 @@
+# truncated input: 0 out of 1+ wire bytes needed for any int with a 1-bit prefix
+# this test case is expected to fail
+inputFilter="cat /dev/null";
+outputFilter='cat';
+expectedOutput="/dev/null";
+testProgram='IntegerPaxxer --parse 1';

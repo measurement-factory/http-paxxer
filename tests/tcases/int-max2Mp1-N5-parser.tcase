@@ -1,0 +1,8 @@
+# 31+2^70 is the smallest number that overflows HPAC "2^M" (but not HPAC "I"!)
+# - 31 forces us to enter the HPAC "repeat" loop because 31 == 2^N-1 with N=5.
+# - 70 is the smallest value of M that exceeds 63 (M=7*k), overflowing 2^M.
+# this test case is expected to fail
+inputFilter="xxd -r $srcdir/tcases/int-max2Mp1-N5.wire";
+outputFilter='cat';
+expectedOutput="$srcdir/tcases/int-max2Mp1.human";
+testProgram='IntegerPaxxer --parse 5';

@@ -1,0 +1,6 @@
+# truncated input: 2 out of 3 wire bytes needed for 159 with a 5-bit prefix
+# this test case is expected to fail
+inputFilter="xxd -r $srcdir/tcases/int-159-N5.wire | head -c 2"
+outputFilter='cat';
+expectedOutput="$srcdir/tcases/int-159.human";
+testProgram='IntegerPaxxer --parse 5';

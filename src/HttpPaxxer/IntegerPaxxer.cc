@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include <sstream>
-
-#include <iostream>
+#include <limits>
 #include <cassert>
 #include <cstdlib>
 #include <stdint.h>
@@ -29,25 +28,28 @@ void sendInteger(const uint64_t value, const int prefixSize)
     assert(1 <= prefixSize && prefixSize <= 8);
     const uint8_t maxPrefix = (1 << prefixSize) - 1;
 
+    // TODO: The largest integer we are going to support will fit into
+    // less than 128 bits. Moreover, integer packing is going to be an atomic
+    // operation. Optimize using a fixed-size on-stack byte array.
     std::string res;
     if (value < maxPrefix) {
         res.push_back(static_cast<uint8_t>(value));
     } else {
         res.push_back(static_cast<uint8_t>(maxPrefix));
-        uint64_t i = value - maxPrefix;
-        while (i >= 128) {
-            const uint8_t ch = (i % 128) + 128;
-            res.push_back(ch);
-            i /= 128;
+        uint64_t remainder = value - maxPrefix; // "I" in HPAC terms
+        while (remainder >= 128) {
+            const uint8_t byte = (remainder % 128) + 128;
+            res.push_back(byte);
+            remainder /= 128;
         }
-        res.push_back(static_cast<uint8_t>(i));
+        res.push_back(static_cast<uint8_t>(remainder));
     }
     std::cout << res;
     std::cout.flush();
 }
 
 // XXX: The interface will change.
-// TODO: Transfor inner code into Connection::receiveInteger().
+// TODO: Transform inner code into Connection::receiveInteger().
 static
 void receiveIntegers(const char *buffer, const size_t size, const int prefixSize)
 {
@@ -64,41 +66,57 @@ void receiveIntegers(const char *buffer, const size_t size, const int prefixSize
         return I
     */
 
+    // TODO: Remove this check after isolating the single-integer parser.
+    // We should check how that parser handles empty input,
+    // not protect that parser from it.
+    if (!size) {
+        std::cerr << "encoding buffer is empty" << std::endl;
+        exit(-2);
+    }
+
     assert(1 <= prefixSize && prefixSize <= 8);
     const uint8_t maxPrefix = (1 << prefixSize) - 1;
+    const uint64_t maxValue = std::numeric_limits<uint64_t>::max();
 
-    size_t i = 0;
-    while (i < size) {
-        uint64_t val = buffer[i++] & maxPrefix;
-        if (val >= maxPrefix) {
-            int m = 0;
+    size_t bytePos = 0;
+    while (bytePos < size) {
+        uint64_t value = buffer[bytePos++] & maxPrefix; // "I" in HPAC terms
+        if (value >= maxPrefix) {
+            unsigned int exponent = 0; // "M" in HPAC terms
             do {
-                if (i >= size) {
-                    std::cerr << "premature end of integer encoding at byte " << i << std::endl;
+                if (bytePos >= size) {
+                    std::cerr << "premature end of integer encoding at byte " << bytePos << std::endl;
                     exit(-2);
                 }
 
-                const uint8_t ch = buffer[i++];
+                const uint8_t byte = buffer[bytePos++]; // "B" in HPAC terms
 
-                const uint8_t d = ch & 127;
-                const int r = 64 - m; // rest of bits: assert(d < 2^r) !!!
-                if (r < 7 && (d >= (1 << r))) {
-                    std::cerr << "decoded value overflow at byte " << i << " of encoding buffer" << std::endl;
-                    exit(-2);
+                if (const uint64_t rawDelta = byte & 127) {
+                    const uint64_t delta = rawDelta << exponent;
+                    if ((delta >> exponent) != rawDelta) {
+                        std::cerr << "value increment overflow at byte " << (bytePos-1) << " of encoding buffer" << std::endl;
+                        exit(-2);
+                    }
+                    if (delta > maxValue-value) {
+                        std::cerr << "value overflow at byte " << (bytePos-1) << " of encoding buffer" << std::endl;
+                        exit(-2);
+                    }
+                    value += delta;
                 }
-                val += static_cast<uint64_t>(d) << m;
 
-                if ((ch & 128) == 0)
+                if ((byte & 128) == 0)
                     break;
 
-                m += 7;
-                if (m>=64) {
-                    std::cerr << "weight factor overflow at byte " << i << " of encoding buffer" << std::endl;
+                exponent += 7;
+                // protect us from m overflows, stopping at the first m value
+                // too big for the rawDelta shift above
+                if (exponent >= 64) {
+                    std::cerr << "weight factor overflow at byte " << (bytePos-1) << " of encoding buffer" << std::endl;
                     exit(-2);
                 }
             } while (true);
         }
-        std::cout << val << std::endl;
+        std::cout << value << std::endl;
         std::cout.flush();
     }
 }

@@ -1,0 +1,6 @@
+# 2^64 or "maximum 64 bit unsigned plus 1" overflows HPAC "I"
+# this test case is expected to fail
+inputFilter="xxd -r $srcdir/tcases/int-max64p1-N5.wire";
+outputFilter='cat';
+expectedOutput="$srcdir/tcases/int-max64p1.human";
+testProgram='IntegerPaxxer --parse 5';

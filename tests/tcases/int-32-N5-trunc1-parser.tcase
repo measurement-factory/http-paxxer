@@ -1,0 +1,6 @@
+# truncated input: 1 out of 2 wire bytes needed for 32 with a 5-bit prefix
+# this test case is expected to fail
+inputFilter="xxd -r $srcdir/tcases/int-32-N5.wire | head -c 1";
+outputFilter='cat';
+expectedOutput="$srcdir/tcases/int-32.human";
+testProgram='IntegerPaxxer --parse 5';
