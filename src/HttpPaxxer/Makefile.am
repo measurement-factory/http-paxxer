@@ -28,10 +28,19 @@ AM_CPPFLAGS = \
 libHttpPaxxer_la_LDFLAGS = -version-info $(HTTP_PAXXER_LIBRARY_VERSION)
 
 
-check_PROGRAMS = IntegerPaxxer
+check_PROGRAMS = \
+	IntegerPaxxer \
+	HeaderFieldPaxxer
 
 IntegerPaxxer_SOURCES = \
 	IntegerPaxxer.cc
 
 IntegerPaxxer_LDADD = \
+	libHttpPaxxer.la
+
+HeaderFieldPaxxer_SOURCES = \
+	HeaderFieldPaxxer.cc \
+	HeaderFieldPaxxer.h
+
+HeaderFieldPaxxer_LDADD = \
 	libHttpPaxxer.la
