@@ -1,0 +1,7 @@
+# HPACK Appendix C.2.1: Literal Header Field with Indexing (Packing).
+# The header field representation uses a literal name and a literal value.
+# The header field is added to the dynamic table.
+inputFilter="cat $srcdir/tcases/hf-customk-customv.human";
+outputFilter='xxd';
+expectedOutput="$srcdir/tcases/hf-customk-customv-with-lit-lit.wire";
+testProgram='HeaderFieldPaxxer --pack'; # indexed

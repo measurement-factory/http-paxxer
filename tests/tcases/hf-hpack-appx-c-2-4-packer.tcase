@@ -1,0 +1,7 @@
+# HPACK Appendix C.2.4: Indexed Header Field (Packing).
+# The header field representation uses a statically indexed header field.
+# The header field is not added to the dynamic table.
+inputFilter="cat $srcdir/tcases/hf-method-get.human";
+outputFilter='xxd';
+expectedOutput="$srcdir/tcases/hf-method-get-idx-static.wire";
+testProgram='HeaderFieldPaxxer --pack'; # indexed

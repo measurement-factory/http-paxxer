@@ -10,7 +10,15 @@ HAND_WRITTEN_TCASES = \
 	tcases/int-none-N1-parser.tcase   \
 	tcases/int-32-N5-trunc1-parser.tcase \
 	tcases/int-159-N5-trunc1-parser.tcase \
-	tcases/int-max63x7-N5-parser.tcase
+	tcases/int-max63x7-N5-parser.tcase \
+	tcases/hf-hpack-appx-c-2-1-packer.tcase \
+	tcases/hf-hpack-appx-c-2-1-parser.tcase \
+	tcases/hf-hpack-appx-c-2-2-packer.tcase \
+	tcases/hf-hpack-appx-c-2-2-parser.tcase \
+	tcases/hf-hpack-appx-c-2-3-packer.tcase \
+	tcases/hf-hpack-appx-c-2-3-parser.tcase \
+	tcases/hf-hpack-appx-c-2-4-packer.tcase \
+	tcases/hf-hpack-appx-c-2-4-parser.tcase
 
 HAND_WRITTEN_TIMAGES = \
 	tcases/int-159.human \
@@ -22,7 +30,15 @@ HAND_WRITTEN_TIMAGES = \
 	tcases/int-max64p1.human \
 	tcases/int-32-N5.wire \
 	tcases/int-max63x7.human \
-	tcases/int-max64p1-N5.wire
+	tcases/int-max64p1-N5.wire \
+	tcases/hf-method-get.human \
+	tcases/hf-method-get-idx-static.wire \
+	tcases/hf-password-secret.human \
+	tcases/hf-password-secret-never-lit-lit.wire \
+	tcases/hf-customk-customv.human \
+	tcases/hf-customk-customv-with-lit-lit.wire \
+	tcases/hf-path-sample.human \
+	tcases/hf-path-sample-wout-static-lit.wire
 
 TESTS += $(HAND_WRITTEN_TCASES)
 EXTRA_DIST += $(HAND_WRITTEN_TCASES)
@@ -36,6 +52,13 @@ XFAIL_TESTS += \
 	tcases/int-32-N5-trunc1-parser.tcase \
 	tcases/int-159-N5-trunc1-parser.tcase \
 	tcases/int-max63x7-N5-parser.tcase
+
+# XXX: These test cases should not fail, but they do because HeaderFieldPaxxer
+# lacks support for packing non-indexed and never-indexed header fields.
+XFAIL_TESTS += \
+	tcases/hf-hpack-appx-c-2-3-packer.tcase \
+	tcases/hf-hpack-appx-c-2-2-packer.tcase
+
 
 CLEANFILES += *.tcase.tmp
 

@@ -1,0 +1,7 @@
+# HPACK Appendix C.2.3: Literal Header Field never Indexed (Parsing).
+# The header field representation uses a literal name and a literal value.
+# The header field is never added to the dynamic table.
+inputFilter="xxd -r $srcdir/tcases/hf-password-secret-never-lit-lit.wire";
+outputFilter='cat';
+expectedOutput="$srcdir/tcases/hf-password-secret.human";
+testProgram='HeaderFieldPaxxer --parse';

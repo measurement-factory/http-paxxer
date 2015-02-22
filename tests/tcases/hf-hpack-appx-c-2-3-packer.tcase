@@ -1,0 +1,7 @@
+# HPACK Appendix C.2.3: Literal Header Field never Indexed (Packing).
+# The header field representation uses a literal name and a literal value.
+# The header field is never added to the dynamic table.
+inputFilter="cat $srcdir/tcases/hf-password-secret.human";
+outputFilter='xxd';
+expectedOutput="$srcdir/tcases/hf-password-secret-never-lit-lit.wire";
+testProgram='HeaderFieldPaxxer --pack never-indexed';

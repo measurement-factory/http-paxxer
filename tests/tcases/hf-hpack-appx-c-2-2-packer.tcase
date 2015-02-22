@@ -1,0 +1,7 @@
+# HPACK Appendix C.2.2: Literal Header Field without Indexing (Packing).
+# The header field representation uses an indexed name and a literal value.
+# The header field is not added to the dynamic table.
+inputFilter="cat $srcdir/tcases/hf-path-sample.human";
+outputFilter='xxd';
+expectedOutput="$srcdir/tcases/hf-path-sample-wout-static-lit.wire";
+testProgram='HeaderFieldPaxxer --pack not-indexed';
